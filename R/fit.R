@@ -762,6 +762,7 @@ CmdStanFit$set("public", name = "profiles", value = profiles)
 #'  [`$save_output_files()`][fit-method-save_output_files] |  Save output CSV files to a specified location. |
 #'  [`$save_data_file()`][fit-method-save_data_file] |  Save JSON data file to a specified location. |
 #'  [`$save_latent_dynamics_files()`][fit-method-save_latent_dynamics_files] |  Save diagnostic CSV files to a specified location. |
+#'  [`$save_clamped_params_file()`][fit-method-save_clamped_params_file] |  Save JSON clamped params file to a specified location. |
 #'
 #'  ## Report run times, console output, return codes
 #'

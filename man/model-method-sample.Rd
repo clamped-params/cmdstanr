@@ -35,6 +35,7 @@ sample(
   fixed_param = FALSE,
   validate_csv = TRUE,
   show_messages = TRUE,
+  clamped_params = NULL,
   cores = NULL,
   num_cores = NULL,
   num_chains = NULL,

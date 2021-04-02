@@ -139,6 +139,10 @@ CmdStanArgs <- R6::R6Class(
         args$data <- c("data", paste0("file=", self$data_file))
       }
 
+      if (!is.null(self$clamped_params_file)) {
+        args$clamped_params <- paste0("clamped_params=", self$clamped_params_file)
+      }
+
       args$output <- c("output", paste0("file=", output_file))
       if (!is.null(latent_dynamics_file)) {
         args$output <- c(args$output, paste0("diagnostic_file=", latent_dynamics_file))
@@ -186,8 +190,8 @@ SampleArgs <- R6::R6Class(
                           init_buffer = NULL,
                           term_buffer = NULL,
                           window = NULL,
-                          fixed_param = FALSE) {
-
+                          fixed_param = FALSE,
+                          clamped_params = NULL) {
       self$iter_warmup <- iter_warmup
       self$iter_sampling <- iter_sampling
       self$save_warmup <- save_warmup
@@ -199,6 +203,7 @@ SampleArgs <- R6::R6Class(
       self$metric <- metric
       self$inv_metric <- inv_metric
       self$fixed_param <- fixed_param
+      self$clamped_params <- clamped_params
       if (!is.null(inv_metric)) {
         if (!is.null(metric_file)) {
           stop("Only one of inv_metric and metric_file can be specified.",

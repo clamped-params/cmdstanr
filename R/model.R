@@ -714,6 +714,7 @@ sample <- function(data = NULL,
                    fixed_param = FALSE,
                    validate_csv = TRUE,
                    show_messages = TRUE,
+                   clamped_params = NULL,
                    # deprecated
                    cores = NULL,
                    num_cores = NULL,
@@ -761,6 +762,7 @@ sample <- function(data = NULL,
     chains <- 1
     parallel_chains <- 1
     save_warmup <- FALSE
+    clamped_params <- NULL
   }
 
   checkmate::assert_integerish(chains, lower = 1, len = 1)
@@ -796,7 +798,8 @@ sample <- function(data = NULL,
     init_buffer = init_buffer,
     term_buffer = term_buffer,
     window = window,
-    fixed_param = fixed_param
+    fixed_param = fixed_param,
+    clamped_params = clamped_params
   )
   cmdstan_args <- CmdStanArgs$new(
     method_args = sample_args,
