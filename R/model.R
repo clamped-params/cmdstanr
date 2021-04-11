@@ -799,7 +799,7 @@ sample <- function(data = NULL,
     term_buffer = term_buffer,
     window = window,
     fixed_param = fixed_param,
-    clamped_params = clamped_params
+    clamped_params_file = process_data(clamped_params)
   )
   cmdstan_args <- CmdStanArgs$new(
     method_args = sample_args,
