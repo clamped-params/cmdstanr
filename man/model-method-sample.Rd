@@ -218,7 +218,8 @@ Markov chain; only generated quantities may change. This can be useful
 when, for example, trying to generate pseudo-data using the generated
 quantities block. If the parameters block is empty then using
 \code{fixed_param=TRUE} is mandatory. When \code{fixed_param=TRUE} the \code{chains} and
-\code{parallel_chains} arguments will be set to \code{1}.}
+\code{parallel_chains} arguments will be set to \code{1}. Furthermore, \code{save_warmup}
+will be set to \code{FALSE} and \code{clamped_params} to \code{NULL}.}
 
 \item{validate_csv}{(logical) When \code{TRUE} (the default), validate the
 sampling results in the csv files. Disable if you wish to manually read in
@@ -231,6 +232,18 @@ Disable if you wish silence these messages, but this is not recommended
 unless you are very sure that the model is correct up to numerical error.
 If the messages are silenced then the \verb{$output()} method of the resulting
 fit object can be used to display all the silenced messages.}
+
+\item{clamped_params}{(multiple options) Parameters to be clamped (held
+constant). One of the following:
+\itemize{
+\item A named list of \R objects. List must have names corresponding to the
+parameters which should be clamped. These names should be a strict subset
+of all parameters declared in the parameters block of the Stan program.
+Internally this list is then written to JSON for CmdStan using
+\code{\link[=write_stan_json]{write_stan_json()}}.
+\item A path to a data file compatible with CmdStan (JSON or \R dump).
+\item \code{NULL} (default), in which case no parameters are clamped.
+}}
 
 \item{cores, num_cores, num_chains, num_warmup, num_samples, save_extra_diagnostics, max_depth, stepsize}{Deprecated and will be removed in a future release.}
 }

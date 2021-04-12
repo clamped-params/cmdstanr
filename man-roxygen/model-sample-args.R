@@ -89,5 +89,15 @@
 #'   when, for example, trying to generate pseudo-data using the generated
 #'   quantities block. If the parameters block is empty then using
 #'   `fixed_param=TRUE` is mandatory. When `fixed_param=TRUE` the `chains` and
-#'   `parallel_chains` arguments will be set to `1`.
+#'   `parallel_chains` arguments will be set to `1`. Furthermore, `save_warmup`
+#'   will be set to `FALSE` and `clamped_params` to `NULL`.
+#' @param clamped_params (multiple options) Parameters to be clamped (held
+#' constant). One of the following:
+#'  * A named list of \R objects. List must have names corresponding to the
+#'  parameters which should be clamped. These names should be a strict subset
+#'  of all parameters declared in the parameters block of the Stan program.
+#'  Internally this list is then written to JSON for CmdStan using
+#'  [write_stan_json()].
+#'  * A path to a data file compatible with CmdStan (JSON or \R dump).
+#'  * `NULL` (default), in which case no parameters are clamped.
 #'

@@ -41,7 +41,6 @@ methods, all of which have their own (linked) documentation pages.
    \code{\link[=fit-method-save_output_files]{$save_output_files()}} \tab Save output CSV files to a specified location. \cr
    \code{\link[=fit-method-save_data_file]{$save_data_file()}} \tab Save JSON data file to a specified location. \cr
    \code{\link[=fit-method-save_latent_dynamics_files]{$save_latent_dynamics_files()}} \tab Save diagnostic CSV files to a specified location. \cr
-   \code{\link[=fit-method-save_clamped_params_file]{$save_clamped_params_file()}} \tab Save JSON clamped params file to a specified location. \cr
 }
 
 }

@@ -527,6 +527,12 @@ data_file <- function() {
 }
 CmdStanFit$set("public", name = "data_file", value = data_file)
 
+#' @rdname fit-method-save_output_files
+clamped_params_file <- function() {
+  self$runset$clamped_params_file()
+}
+CmdStanFit$set("public", name = "clamped_params_file", value = clamped_params_file)
+
 #' Report timing of CmdStan runs
 #'
 #' @name fit-method-time
@@ -762,7 +768,6 @@ CmdStanFit$set("public", name = "profiles", value = profiles)
 #'  [`$save_output_files()`][fit-method-save_output_files] |  Save output CSV files to a specified location. |
 #'  [`$save_data_file()`][fit-method-save_data_file] |  Save JSON data file to a specified location. |
 #'  [`$save_latent_dynamics_files()`][fit-method-save_latent_dynamics_files] |  Save diagnostic CSV files to a specified location. |
-#'  [`$save_clamped_params_file()`][fit-method-save_clamped_params_file] |  Save JSON clamped params file to a specified location. |
 #'
 #'  ## Report run times, console output, return codes
 #'

@@ -279,6 +279,7 @@ SampleArgs <- R6::R6Class(
           .make_arg("init_buffer"),
           .make_arg("term_buffer"),
           .make_arg("window"),
+          # TODO: Do we really want this with fixed param TRUE?
           .make_arg("clamped_params_file", cmdstan_arg_name = "clamped_params")
         )
       } else {
@@ -709,6 +710,39 @@ validate_exe_file <- function(exe_file) {
          call. = FALSE)
   }
   invisible(TRUE)
+}
+
+#' Write clamped params values to a file if given
+#' @noRd
+#' @param clamped_params Argument as given to \code{\link{sample}}.
+#' @return A file path.
+process_clamped_params <- function(clamped_params) {
+  cp <- clamped_params
+  if (length(cp) == 0) {
+    cp <- NULL
+  }
+  if (is.null(cp)) {
+    path <- cp
+  } else {
+    cver <- cmdstan_version()
+    if (cver < "2.27") { # TODO: determine correct minimum version here
+      msg <- paste0("Clamped params not supported with this version of ",
+                    "CmdStan (", cver, ")")
+      warning(msg)
+    }
+    if(is.character(cp)) {
+      path <- absolute_path(cp)
+    } else if (is.list(cp) && !is.data.frame(cp)) {
+      if (any_na_elements(cp)) {
+        stop("clamped_params includes NA values.", call. = FALSE)
+      }
+      path <- tempfile(pattern = "clamped_params-", fileext = ".json")
+      write_stan_json(data = cp, file = path)
+    } else {
+      stop("'clamped_params' should be a path or a named list.", call. = FALSE)
+    }
+  }
+  path
 }
 
 #' Write initial values to files if provided as list of lists

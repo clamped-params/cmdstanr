@@ -758,6 +758,7 @@ sample <- function(data = NULL,
     save_latent_dynamics <- save_extra_diagnostics
   }
 
+  # some arguments have no effect if using fixed_param
   if (fixed_param) {
     chains <- 1
     parallel_chains <- 1
@@ -799,7 +800,7 @@ sample <- function(data = NULL,
     term_buffer = term_buffer,
     window = window,
     fixed_param = fixed_param,
-    clamped_params_file = process_data(clamped_params)
+    clamped_params_file = process_clamped_params(clamped_params)
   )
   cmdstan_args <- CmdStanArgs$new(
     method_args = sample_args,

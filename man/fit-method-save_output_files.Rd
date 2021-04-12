@@ -17,6 +17,7 @@
 \alias{data_file}
 \alias{latent_dynamics_files}
 \alias{profile_files}
+\alias{clamped_params_file}
 \title{Save output and data files}
 \usage{
 save_output_files(dir = ".", basename = NULL, timestamp = TRUE, random = TRUE)
@@ -39,6 +40,8 @@ profile_files(include_failed = FALSE)
 latent_dynamics_files(include_failed = FALSE)
 
 data_file()
+
+clamped_params_file()
 }
 \arguments{
 \item{dir}{(string) Path to directory where the files should be saved.}
