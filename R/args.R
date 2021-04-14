@@ -725,10 +725,10 @@ process_clamped_params <- function(clamped_params) {
     path <- cp
   } else {
     cver <- cmdstan_version()
-    if (cver < "2.27") { # TODO: determine correct minimum version here
-      msg <- paste0("Clamped params not supported with this version of ",
-                    "CmdStan (", cver, ")")
-      warning(msg)
+    if (cver < "2.28") { # TODO: determine correct minimum version here
+      msg <- paste0("Are you sure clamped params are supported with your",
+                    " version of CmdStan (", cver, ")?")
+      message(msg) # TODO: make warning/error
     }
     if(is.character(cp)) {
       path <- absolute_path(cp)
