@@ -37,6 +37,10 @@ CmdStanRun <- R6::R6Class(
     model_name = function() self$args$model_name,
     method = function() self$args$method,
     data_file = function() self$args$data_file,
+    clamped_params_file = function() {
+      # TODO: add info if method wasn't sample?
+      self$args$method_args$clamped_params_file
+    },
     new_output_files = function() {
       self$args$new_files(type = "output")
     },

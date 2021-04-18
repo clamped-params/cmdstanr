@@ -186,8 +186,8 @@ SampleArgs <- R6::R6Class(
                           init_buffer = NULL,
                           term_buffer = NULL,
                           window = NULL,
-                          fixed_param = FALSE) {
-
+                          fixed_param = FALSE,
+                          clamped_params_file = NULL) {
       self$iter_warmup <- iter_warmup
       self$iter_sampling <- iter_sampling
       self$save_warmup <- save_warmup
@@ -199,6 +199,7 @@ SampleArgs <- R6::R6Class(
       self$metric <- metric
       self$inv_metric <- inv_metric
       self$fixed_param <- fixed_param
+      self$clamped_params_file <- clamped_params_file
       if (!is.null(inv_metric)) {
         if (!is.null(metric_file)) {
           stop("Only one of inv_metric and metric_file can be specified.",
@@ -239,6 +240,9 @@ SampleArgs <- R6::R6Class(
     },
     validate = function(num_procs) {
       validate_sample_args(self, num_procs)
+      if (is.character(self$clamped_params_file)) {
+        self$clamped_params_file <- absolute_path(self$clamped_params_file)
+      }
       self$metric_file <- maybe_recycle_metric_file(self$metric_file, num_procs)
       invisible(self)
     },
@@ -274,7 +278,9 @@ SampleArgs <- R6::R6Class(
           .make_arg("adapt_engaged"),
           .make_arg("init_buffer"),
           .make_arg("term_buffer"),
-          .make_arg("window")
+          .make_arg("window"),
+          # TODO: Do we really want this with fixed param TRUE?
+          .make_arg("clamped_params_file", cmdstan_arg_name = "clamped_params")
         )
       } else {
         new_args <- list(
@@ -295,7 +301,8 @@ SampleArgs <- R6::R6Class(
           .make_arg("adapt_engaged"),
           .make_arg("init_buffer"),
           .make_arg("term_buffer"),
-          .make_arg("window")
+          .make_arg("window"),
+          .make_arg("clamped_params_file", cmdstan_arg_name = "clamped_params")
         )
       }
       new_args <- do.call(c, new_args)
@@ -703,6 +710,39 @@ validate_exe_file <- function(exe_file) {
          call. = FALSE)
   }
   invisible(TRUE)
+}
+
+#' Write clamped params values to a file if given
+#' @noRd
+#' @param clamped_params Argument as given to \code{\link{sample}}.
+#' @return A file path.
+process_clamped_params <- function(clamped_params) {
+  cp <- clamped_params
+  if (length(cp) == 0) {
+    cp <- NULL
+  }
+  if (is.null(cp)) {
+    path <- cp
+  } else {
+    cver <- cmdstan_version()
+    if (cver < "2.28") { # TODO: determine correct minimum version here
+      msg <- paste0("Are you sure clamped params are supported with your",
+                    " version of CmdStan (", cver, ")?")
+      message(msg) # TODO: make warning/error
+    }
+    if(is.character(cp)) {
+      path <- absolute_path(cp)
+    } else if (is.list(cp) && !is.data.frame(cp)) {
+      if (any_na_elements(cp)) {
+        stop("clamped_params includes NA values.", call. = FALSE)
+      }
+      path <- tempfile(pattern = "clamped_params-", fileext = ".json")
+      write_stan_json(data = cp, file = path)
+    } else {
+      stop("'clamped_params' should be a path or a named list.", call. = FALSE)
+    }
+  }
+  path
 }
 
 #' Write initial values to files if provided as list of lists

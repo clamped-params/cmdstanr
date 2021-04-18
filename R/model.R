@@ -714,6 +714,7 @@ sample <- function(data = NULL,
                    fixed_param = FALSE,
                    validate_csv = TRUE,
                    show_messages = TRUE,
+                   clamped_params = NULL,
                    # deprecated
                    cores = NULL,
                    num_cores = NULL,
@@ -757,10 +758,12 @@ sample <- function(data = NULL,
     save_latent_dynamics <- save_extra_diagnostics
   }
 
+  # some arguments have no effect if using fixed_param
   if (fixed_param) {
     chains <- 1
     parallel_chains <- 1
     save_warmup <- FALSE
+    clamped_params <- NULL
   }
 
   checkmate::assert_integerish(chains, lower = 1, len = 1)
@@ -796,7 +799,8 @@ sample <- function(data = NULL,
     init_buffer = init_buffer,
     term_buffer = term_buffer,
     window = window,
-    fixed_param = fixed_param
+    fixed_param = fixed_param,
+    clamped_params_file = process_clamped_params(clamped_params)
   )
   cmdstan_args <- CmdStanArgs$new(
     method_args = sample_args,

@@ -527,6 +527,12 @@ data_file <- function() {
 }
 CmdStanFit$set("public", name = "data_file", value = data_file)
 
+#' @rdname fit-method-save_output_files
+clamped_params_file <- function() {
+  self$runset$clamped_params_file()
+}
+CmdStanFit$set("public", name = "clamped_params_file", value = clamped_params_file)
+
 #' Report timing of CmdStan runs
 #'
 #' @name fit-method-time

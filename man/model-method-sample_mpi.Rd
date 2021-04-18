@@ -196,7 +196,8 @@ Markov chain; only generated quantities may change. This can be useful
 when, for example, trying to generate pseudo-data using the generated
 quantities block. If the parameters block is empty then using
 \code{fixed_param=TRUE} is mandatory. When \code{fixed_param=TRUE} the \code{chains} and
-\code{parallel_chains} arguments will be set to \code{1}.}
+\code{parallel_chains} arguments will be set to \code{1}. Furthermore, \code{save_warmup}
+will be set to \code{FALSE} and \code{clamped_params} to \code{NULL}.}
 
 \item{sig_figs}{(positive integer) The number of significant figures used
 when storing the output values. By default, CmdStan represent the output
